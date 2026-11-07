@@ -1,5 +1,29 @@
 /* LieV-Konzept – Stylesheet
-   Keine externen Schriften, keine Tracker: schnell und datenschutzfreundlich. */
+   Typografie und Formensprache angelehnt an den Auftritt der BBS Norden
+   (Montserrat für Überschriften, Open Sans für Fließtext), Farbwelt von LieV.
+   Schriften werden lokal gehostet: keine externen Anfragen, keine Tracker. */
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/montserrat-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/opensans-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Open Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/opensans-italic-var.woff2") format("woff2");
+}
 
 :root {
   --ink: #14234b;
@@ -15,8 +39,8 @@
   --green-t: #4f9019;
   --green-d: #3d7a12;
   --purple: #6b2fa0;
-  --head: "Avenir Next", "Segoe UI Variable Display", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
-  --body: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --head: "Montserrat", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Open Sans", "Segoe UI", Arial, system-ui, sans-serif;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -26,25 +50,25 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--body);
-  font-size: 1.125rem;
-  line-height: 1.7;
+  font-size: 1.0625rem;
+  line-height: 1.75;
   color: var(--ink);
   background: #fff;
   overflow-wrap: break-word;
   hyphens: auto;
 }
-.grid-2 > *, .grid-3 > *, .levels > *, .rooms > *, .people > *, .defs > * { min-width: 0; }
+.grid-2 > *, .grid-3 > *, .levels > *, .rooms > *, .people > *, .defs > *, .tiles > *, .dls > * { min-width: 0; }
 
 h1, h2, h3, h4 {
   font-family: var(--head);
-  line-height: 1.15;
+  line-height: 1.18;
   letter-spacing: -0.01em;
   margin: 0 0 0.6em;
   color: var(--ink);
 }
-h1 { font-size: clamp(1.65rem, 6vw, 3.1rem); font-weight: 800; }
-h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 800; }
-h3 { font-size: 1.3rem; font-weight: 700; }
+h1 { font-size: clamp(1.65rem, 6vw, 2.9rem); font-weight: 800; }
+h2 { font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 800; }
+h3 { font-size: 1.22rem; font-weight: 700; }
 p { margin: 0 0 1em; }
 a { color: var(--blue-d); text-underline-offset: 0.18em; }
 a:hover { color: var(--ink); }
@@ -55,7 +79,10 @@ a:hover { color: var(--ink); }
 
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
 .prose { max-width: 66ch; }
-.lead { font-size: 1.28rem; line-height: 1.6; max-width: 60ch; }
+.lead { font-size: 1.2rem; line-height: 1.65; max-width: 62ch; color: var(--ink-2); }
+
+/* Kleine Vorzeile über Überschriften, wie beim Schulauftritt */
+.kicker { display: block; font-family: var(--head); font-weight: 700; font-size: 0.8rem; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.14em; color: var(--blue-d); margin-bottom: 0.65rem; }
 
 /* Markenzeichen LieV: L blau, i rot, e rot, V grün */
 .c-l { color: var(--blue); }
@@ -64,32 +91,40 @@ a:hover { color: var(--ink); }
 .wm { font-family: var(--head); font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; }
 .wm sup { font-size: 0.5em; font-weight: 600; margin-left: 0.05em; vertical-align: super; line-height: 0; color: var(--ink); }
 
+/* Schmale Leiste über dem Kopfbereich */
+.top-bar { background: var(--ink); color: #fff; font-family: var(--head); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.03em; }
+.top-bar .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.2rem 1.5rem; padding-top: 0.45rem; padding-bottom: 0.45rem; }
+.top-bar a { color: #fff; text-decoration: none; }
+.top-bar a:hover { color: var(--sky-2); text-decoration: underline; }
+@media (max-width: 560px) { .top-bar .wrap > span:first-child { display: none; } }
+
 /* Kopfbereich und Navigation */
-.site-header { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 50; }
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 68px; }
+.site-header { background: #fff; border-bottom: 0; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 0 var(--line); }
+.site-header::after { content: ""; display: block; height: 4px; background: linear-gradient(90deg, var(--blue) 0 25%, var(--red) 25% 50%, var(--green) 50% 75%, var(--purple) 75% 100%); }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 66px; }
 .brand { font-family: var(--head); font-weight: 800; font-size: 1.55rem; text-decoration: none; color: var(--ink); letter-spacing: -0.02em; display: flex; align-items: baseline; gap: 0.5rem; }
 .brand:hover { color: var(--ink); }
-.brand small { font-size: 0.85rem; font-weight: 700; color: var(--ink-2); letter-spacing: 0; }
-.nav ul { list-style: none; display: flex; gap: 0.15rem; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
-.nav a { white-space: nowrap; font-family: var(--head); font-weight: 600; font-size: 0.9rem; text-decoration: none; color: var(--ink); padding: 0.45rem 0.6rem; border-radius: 999px; display: block; }
-.nav a:hover { background: var(--sky); }
-.nav a[aria-current="page"] { background: var(--ink); color: #fff; }
+.brand small { font-size: 0.8rem; font-weight: 700; color: var(--ink-2); letter-spacing: 0.08em; text-transform: uppercase; }
+.nav ul { list-style: none; display: flex; gap: 0; margin: 0; padding: 0; flex-wrap: wrap; justify-content: flex-end; }
+.nav a { white-space: nowrap; font-family: var(--head); font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; text-decoration: none; color: var(--ink); padding: 0.5rem 0.4rem; border-radius: 4px; display: block; }
+.nav a:hover { background: var(--sky); color: var(--blue-d); }
+.nav a[aria-current="page"] { background: var(--blue-d); color: #fff; }
 .nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
-.nav-btn { display: none; font-family: var(--head); font-weight: 700; padding: 0.5rem 1rem; border: 2px solid var(--ink); border-radius: 999px; cursor: pointer; }
+.nav-btn { display: none; font-family: var(--head); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 1rem; border: 2px solid var(--ink); border-radius: 4px; cursor: pointer; }
 .nav-toggle:focus-visible + .nav-btn { outline: 3px solid var(--purple); outline-offset: 3px; }
 
 @media (max-width: 1240px) {
   .nav-btn { display: inline-block; }
   .nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); padding: 0.5rem 1.25rem 1rem; }
   .nav ul { flex-direction: column; align-items: stretch; }
-  .nav a { border-radius: 8px; padding: 0.7rem 0.8rem; }
+  .nav a { border-radius: 4px; padding: 0.7rem 0.8rem; }
   .nav-toggle:checked ~ .nav { display: block; }
 }
 
 /* Startseite: Hero */
 .hero { background: var(--sky); padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2.5rem, 6vw, 4.5rem); }
 .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
-.hero h1 { font-size: clamp(2.5rem, 6.4vw, 4.5rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin: 0 0 1.4rem; }
+.hero h1 { font-size: clamp(2.3rem, 6vw, 4.1rem); font-weight: 800; line-height: 1.04; letter-spacing: -0.03em; margin: 0 0 1.4rem; }
 .hero h1 .line { display: block; }
 .hero .lead { margin-bottom: 1.6rem; }
 .stairs { margin: 0; }
@@ -100,25 +135,25 @@ a:hover { color: var(--ink); }
 @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; gap: 2rem; } .stairs { max-width: 420px; } }
 
 .btns { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-.btn { font-family: var(--head); font-weight: 700; font-size: 1rem; text-decoration: none; padding: 0.8rem 1.4rem; border-radius: 999px; border: 2px solid var(--ink); display: inline-block; }
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: var(--purple); border-color: var(--purple); color: #fff; }
-.btn-ghost { background: transparent; color: var(--ink); }
-.btn-ghost:hover { background: #fff; color: var(--ink); }
+.btn { font-family: var(--head); font-weight: 700; font-size: 0.95rem; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 4px; border: 2px solid var(--blue-d); display: inline-block; }
+.btn-primary { background: var(--blue-d); color: #fff; }
+.btn-primary:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-ghost:hover { background: var(--ink); color: #fff; }
 
 /* Seitenkopf innen */
 .page-head { background: var(--sky); padding: 2rem 0 2.6rem; }
-.crumbs { font-family: var(--head); font-size: 0.92rem; margin-bottom: 1.2rem; }
+.crumbs { font-family: var(--head); font-size: 0.88rem; font-weight: 600; margin-bottom: 1.2rem; }
 .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; margin: 0; padding: 0; }
 .crumbs li + li::before { content: "/"; margin: 0 0.55rem; color: var(--ink-2); }
 .crumbs a { color: var(--ink-2); }
-.page-head h1 { max-width: 22ch; }
+.page-head h1 { max-width: 24ch; }
 .page-head .lead { margin-bottom: 0; }
 
 /* Abschnitte */
 .block { padding: clamp(2.5rem, 6vw, 4.2rem) 0; }
 .tint { background: var(--sky); }
-.block > .wrap > h2 { max-width: 24ch; }
+.block > .wrap > h2 { max-width: 28ch; }
 .block-intro { max-width: 62ch; }
 
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
@@ -126,7 +161,7 @@ a:hover { color: var(--ink); }
 @media (max-width: 900px) { .grid-3 { grid-template-columns: 1fr; } }
 @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
 
-.principle { border-top: 8px solid var(--c, var(--blue)); background: #fff; padding: 1.3rem 1.5rem 1.4rem; border-radius: 0 0 14px 14px; box-shadow: 0 0 0 1px var(--line); }
+.principle { border-top: 6px solid var(--c, var(--blue)); background: #fff; padding: 1.3rem 1.5rem 1.4rem; border-radius: 0 0 6px 6px; box-shadow: 0 0 0 1px var(--line); }
 .principle h3 { margin-bottom: 0.5rem; }
 .principle p { margin-bottom: 0.7rem; }
 .c-blue { --c: var(--blue); }
@@ -140,19 +175,25 @@ a:hover { color: var(--ink); }
 
 /* Definitionsliste Was ist LieV */
 .defs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem 3rem; margin: 0; }
-.defs dt { font-family: var(--head); font-weight: 800; font-size: 1.2rem; margin-top: 1rem; }
+.defs dt { font-family: var(--head); font-weight: 800; font-size: 1.1rem; margin-top: 1rem; }
 .defs dd { margin: 0.1rem 0 0.4rem; }
 @media (max-width: 760px) { .defs { grid-template-columns: 1fr; } }
 
-blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px solid var(--green); font-family: var(--head); font-weight: 700; font-size: clamp(1.3rem, 2.6vw, 1.85rem); line-height: 1.35; max-width: 38ch; }
+blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px solid var(--green); font-family: var(--head); font-weight: 700; font-size: clamp(1.25rem, 2.5vw, 1.7rem); line-height: 1.4; max-width: 42ch; }
 
-/* Linkliste Themen */
-.topics { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.topics li { border-bottom: 1px solid var(--line); }
-.topics a { display: grid; grid-template-columns: 15rem 1fr; gap: 1rem; padding: 1rem 0.3rem; text-decoration: none; color: var(--ink); }
-.topics a:hover { background: var(--sky); }
-.topics strong { font-family: var(--head); font-size: 1.15rem; color: var(--blue-d); }
-@media (max-width: 760px) { .topics a { grid-template-columns: 1fr; gap: 0.1rem; } }
+/* Themenkacheln, angelehnt an die Abteilungskacheln der BBS Norden */
+.tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+.tiles a { display: flex; flex-direction: column; gap: 0.45rem; height: 100%; padding: 1.4rem 1.4rem 1.15rem; text-decoration: none; background: var(--tc, var(--ink)); color: #fff; border-radius: 6px; }
+.tiles strong { font-family: var(--head); font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.4; }
+.tiles span { font-size: 0.95rem; line-height: 1.55; }
+.tiles a::after { content: "⟶"; margin-top: auto; padding-top: 0.6rem; font-size: 1.35rem; line-height: 1; transition: transform 0.15s ease; }
+.tiles a:hover::after, .tiles a:focus-visible::after { transform: translateX(8px); }
+.tiles li:nth-child(3n+1) a { --tc: var(--ink); }
+.tiles li:nth-child(3n+2) a { --tc: var(--blue-d); }
+.tiles li:nth-child(3n) a { --tc: var(--sky-2); color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .tiles a::after { transition: none; } }
+@media (max-width: 1000px) { .tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .tiles { grid-template-columns: 1fr; } }
 
 /* Personen */
 .people { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
@@ -163,24 +204,38 @@ blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px s
 
 /* Graduierung */
 .levels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; align-items: end; }
-.level { background: #fff; border-radius: 14px 14px 0 0; padding: 1.4rem 1.4rem 1.6rem; border-top: 10px solid var(--c); box-shadow: 0 0 0 1px var(--line); }
+.level { background: #fff; border-radius: 6px 6px 0 0; padding: 1.4rem 1.4rem 1.6rem; border-top: 8px solid var(--c); box-shadow: 0 0 0 1px var(--line); }
 .level:nth-child(1) { min-height: 15rem; }
 .level:nth-child(2) { min-height: 19rem; }
 .level:nth-child(3) { min-height: 23rem; }
 .level h3 { margin-bottom: 0.5rem; }
 .level .tag { margin-bottom: 0.8rem; }
-@media (max-width: 900px) { .levels { grid-template-columns: 1fr; align-items: stretch; } .level:nth-child(n) { min-height: 0; border-radius: 14px; } }
+@media (max-width: 900px) { .levels { grid-template-columns: 1fr; align-items: stretch; } .level:nth-child(n) { min-height: 0; border-radius: 6px; } }
 
-.tag { display: inline-block; font-family: var(--head); font-size: 0.86rem; font-weight: 700; padding: 0.12rem 0.65rem; border-radius: 999px; background: var(--sky); color: var(--ink); }
+.tag { display: inline-block; font-family: var(--head); font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.18rem 0.6rem; border-radius: 4px; background: var(--sky); color: var(--ink); }
 .tag-blue { background: var(--blue-d); color: #fff; }
 .tag-green { background: var(--green-d); color: #fff; }
 .tag-purple { background: var(--purple); color: #fff; }
 
 .note { border-left: 6px solid var(--blue); background: var(--sky); padding: 1rem 1.3rem; max-width: 66ch; }
+.tint .note { background: #fff; }
 .note p:last-child { margin-bottom: 0; }
 
+/* Auf- und Abstiegsdiagramm */
+.flow { margin: 2rem 0 0; }
+.flow svg { width: 100%; height: auto; display: block; max-width: 860px; }
+.flow text { font-family: var(--head); }
+.flow figcaption { font-family: var(--head); font-weight: 600; font-size: 0.95rem; color: var(--ink-2); margin-top: 0.5rem; }
+
+/* Faktentabelle, z. B. Fristen */
+.facts { border-collapse: collapse; width: 100%; max-width: 760px; font-size: 0.98rem; }
+.facts caption { text-align: left; font-family: var(--head); font-weight: 700; font-size: 1.1rem; padding-bottom: 0.6rem; }
+.facts th, .facts td { text-align: left; padding: 0.6rem 0.9rem 0.6rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+.facts thead th { font-family: var(--head); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); }
+.facts td:first-child, .facts tbody th { font-weight: 600; font-family: var(--body); }
+
 /* Lernauftrag */
-.sheet { border: 2px solid var(--ink); background: #fff; font-family: var(--head); font-size: 0.98rem; line-height: 1.5; max-width: 900px; }
+.sheet { border: 2px solid var(--ink); background: #fff; font-family: var(--head); font-size: 0.95rem; line-height: 1.5; max-width: 900px; }
 .sheet-head { padding: 0.8rem 1.1rem; border-bottom: 2px solid var(--ink); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.4rem 1.2rem; }
 .sheet-head .wm { font-size: 1.5rem; }
 .sheet-head > span:last-child { color: var(--ink-2); font-size: 0.9rem; }
@@ -199,8 +254,8 @@ blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px s
 /* Ablauf / Schritte */
 .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; max-width: 66ch; }
 .steps li { counter-increment: s; display: grid; grid-template-columns: 3.2rem 1fr; gap: 0.8rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
-.steps li::before { content: counter(s); width: 2.3rem; height: 2.3rem; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: var(--head); font-weight: 800; }
-.steps strong { font-family: var(--head); font-size: 1.15rem; display: block; }
+.steps li::before { content: counter(s); width: 2.3rem; height: 2.3rem; border-radius: 50%; background: var(--blue-d); color: #fff; display: grid; place-items: center; font-family: var(--head); font-weight: 800; }
+.steps strong { font-family: var(--head); font-size: 1.1rem; display: block; }
 
 .timeline { list-style: none; padding: 0; margin: 0 0 0 0.6rem; border-left: 3px solid var(--blue); max-width: 60ch; }
 .timeline li { position: relative; padding: 0 0 1.3rem 1.6rem; }
@@ -210,16 +265,16 @@ blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px s
 /* Umfrage-Balken */
 .bars { max-width: 720px; }
 .bars h3 { margin-top: 1.6rem; }
-.brow { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.8rem; align-items: center; margin: 0.45rem 0; font-family: var(--head); font-weight: 600; }
-.track { background: var(--sky-2); height: 2.1rem; border-radius: 6px; overflow: hidden; }
+.brow { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.8rem; align-items: center; margin: 0.45rem 0; font-family: var(--head); font-weight: 600; font-size: 0.92rem; }
+.track { background: var(--sky-2); height: 2.1rem; border-radius: 4px; overflow: hidden; }
 .fill { height: 100%; display: flex; align-items: center; padding-left: 0.7rem; color: #fff; font-weight: 800; }
 .fill-a { background: var(--blue-d); }
 .fill-b { background: var(--green-d); }
-.small { font-size: 0.95rem; color: var(--ink-2); }
+.small { font-size: 0.92rem; color: var(--ink-2); }
 
 /* Kacheln für Angebote */
 .chips { list-style: none; margin: 0 0 1em; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.chips li { font-family: var(--head); font-weight: 600; font-size: 0.98rem; background: #fff; border: 2px solid var(--c, var(--blue)); border-radius: 10px; padding: 0.4rem 0.8rem; }
+.chips li { font-family: var(--head); font-weight: 600; font-size: 0.92rem; background: #fff; border: 2px solid var(--c, var(--blue)); border-radius: 4px; padding: 0.4rem 0.8rem; }
 .tint .chips li { background: #fff; }
 
 .rooms { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem; }
@@ -228,10 +283,20 @@ blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px s
 .room p { margin: 0; }
 @media (max-width: 760px) { .rooms { grid-template-columns: 1fr; } }
 
+/* Materialien zum Herunterladen */
+.dls { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+.dl { background: #fff; border-top: 6px solid var(--c, var(--blue)); border-radius: 0 0 6px 6px; box-shadow: 0 0 0 1px var(--line); padding: 1.2rem 1.3rem 1.3rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.dl h3 { margin: 0; font-size: 1.05rem; }
+.dl p { margin: 0; font-size: 0.95rem; color: var(--ink-2); flex: 1; }
+.dl .meta { font-family: var(--head); font-weight: 700; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-2); }
+.dl .btn { align-self: flex-start; margin-top: 0.7rem; padding: 0.5rem 1.1rem; font-size: 0.88rem; }
+@media (max-width: 1000px) { .dls { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .dls { grid-template-columns: 1fr; } }
+
 /* FAQ */
 .faq details { border-bottom: 1px solid var(--line); max-width: 760px; }
 .faq details:first-child { border-top: 1px solid var(--line); }
-.faq summary { font-family: var(--head); font-weight: 700; font-size: 1.15rem; padding: 1rem 2rem 1rem 0.2rem; cursor: pointer; list-style: none; position: relative; }
+.faq summary { font-family: var(--head); font-weight: 700; font-size: 1.08rem; padding: 1rem 2rem 1rem 0.2rem; cursor: pointer; list-style: none; position: relative; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after { content: "+"; position: absolute; right: 0.4rem; top: 0.8rem; font-size: 1.6rem; font-weight: 400; color: var(--blue-d); }
 .faq details[open] summary::after { content: "–"; }
@@ -240,18 +305,18 @@ blockquote.pull { margin: 0; padding: 0.4rem 0 0.4rem 1.6rem; border-left: 8px s
 .todo { background: #fff3a3; padding: 0 0.3em; border-radius: 3px; }
 
 /* Fuß */
-.site-footer { background: var(--ink); color: #fff; padding: 3rem 0 2rem; font-size: 1rem; }
+.site-footer { background: var(--ink); color: #fff; padding: 3rem 0 2rem; font-size: 0.98rem; }
 .site-footer a { color: #fff; }
 .site-footer a:hover { color: var(--sky-2); }
 .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; }
-.site-footer h2 { font-size: 1.05rem; color: #fff; margin-bottom: 0.6rem; }
+.site-footer h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; margin-bottom: 0.7rem; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; }
 .site-footer li { margin: 0.3rem 0; }
 .site-footer .wm sup { color: #fff; }
 .site-footer .c-l { color: #4cb8ee; }
 .site-footer .c-i, .site-footer .c-e { color: #ff6b70; }
 .site-footer .c-v { color: var(--green); }
-.foot-note { border-top: 1px solid rgba(255, 255, 255, 0.25); margin-top: 2rem; padding-top: 1rem; font-size: 0.92rem; color: #d3dcf3; }
+.foot-note { border-top: 1px solid rgba(255, 255, 255, 0.25); margin-top: 2rem; padding-top: 1rem; font-size: 0.9rem; color: #d3dcf3; }
 @media (max-width: 760px) { .foot-grid { grid-template-columns: 1fr; } }
 
 .legal h2 { font-size: 1.4rem; margin-top: 2rem; }
